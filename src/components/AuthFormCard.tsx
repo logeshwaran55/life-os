@@ -14,7 +14,7 @@ type Props = {
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const GOOGLE_AUTH_URL =
-  import.meta.env.VITE_GOOGLE_AUTH_URL ?? "http://localhost:5000/api/auth/google";
+  import.meta.env.VITE_GOOGLE_AUTH_URL ?? "https://lifeos-backend-39pd.onrender.com/api/auth/google";
 
 export default function AuthFormCard({
   mode,

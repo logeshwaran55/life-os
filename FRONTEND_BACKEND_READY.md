@@ -24,7 +24,7 @@ npm run dev:all
 ```
 
 This starts:
-- Backend on `http://localhost:5000`
+- Backend on `https://lifeos-backend-39pd.onrender.com`
 - Frontend on `http://localhost:5173`
 
 ### Option 2: Run Separately
@@ -129,19 +129,19 @@ npm run dev
 ```
 1. Create task with priority "Low"
 2. Click cell to edit, change to "High"
-3. curl http://localhost:5000/api/tasks
+3. curl https://lifeos-backend-39pd.onrender.com/api/tasks
 4. Shows updated priority? ✅ Working!
 ```
 
 ### Test 4: API Health
 ```bash
-curl http://localhost:5000/api/health
+curl https://lifeos-backend-39pd.onrender.com/api/health
 # Returns: { "status": "ok" }
 ```
 
 ### Test 5: Fetch All Tasks
 ```bash
-curl http://localhost:5000/api/tasks
+curl https://lifeos-backend-39pd.onrender.com/api/tasks
 # Returns: [{ id, values, completed, ... }, ...]
 ```
 
@@ -161,7 +161,7 @@ curl http://localhost:5000/api/tasks
 | `DELETE` | `/api/columns/:id` | Delete column |
 | `GET` | `/api/health` | Check API status |
 
-**Base URL**: `http://localhost:5000`
+**Base URL**: `https://lifeos-backend-39pd.onrender.com`
 
 ---
 
@@ -295,8 +295,8 @@ This is real-world engineering. Use it, deploy it, extend it.
 **Start everything**: `npm run dev:all`  
 **Backend only**: `npm run server`  
 **Frontend only**: `npm run dev`  
-**Check API health**: `curl http://localhost:5000/api/health`  
-**View tasks**: `curl http://localhost:5000/api/tasks`  
+**Check API health**: `curl https://lifeos-backend-39pd.onrender.com/api/health`  
+**View tasks**: `curl https://lifeos-backend-39pd.onrender.com/api/tasks`  
 
 ---
 

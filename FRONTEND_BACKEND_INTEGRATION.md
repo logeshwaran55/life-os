@@ -282,7 +282,7 @@ export const deleteColumn = (columnId: string) => request<void>(`/columns/${colu
 3. Click "Add Task"
 ✅ Task appears immediately (optimistic)
 ✅ Success message shows: "Task added."
-✅ Check backend: curl http://localhost:5000/api/tasks
+✅ Check backend: curl https://lifeos-backend-39pd.onrender.com/api/tasks
 ```
 
 #### Step 2: Refresh Page
@@ -299,7 +299,7 @@ export const deleteColumn = (columnId: string) => request<void>(`/columns/${colu
 2. Change value and press Enter
 ✅ Value updates immediately in table
 ✅ No error message appears
-✅ curl http://localhost:5000/api/tasks shows updated value
+✅ curl https://lifeos-backend-39pd.onrender.com/api/tasks shows updated value
 ```
 
 #### Step 4: Delete Task
@@ -354,14 +354,14 @@ console.log("API sync failed");
 console.log(tasks);
 
 // View MongoDB connection
-curl http://localhost:5000/api/health
+curl https://lifeos-backend-39pd.onrender.com/api/health
 // Should return: { "status": "ok" }
 ```
 
 ### Verify Backend Connection
 ```bash
 # Test API endpoint
-curl http://localhost:5000/api/tasks
+curl https://lifeos-backend-39pd.onrender.com/api/tasks
 
 # Should return JSON array of tasks
 ```

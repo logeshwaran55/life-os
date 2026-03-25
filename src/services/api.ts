@@ -3,7 +3,7 @@ import type { Schedule } from "../types/schedule";
 import { readAuthToken } from "./storage";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "/api";
-const DEV_API_FALLBACK_BASE = import.meta.env.VITE_DEV_API_FALLBACK ?? "http://localhost:5000/api";
+const DEV_API_FALLBACK_BASE = import.meta.env.VITE_DEV_API_FALLBACK ?? "https://lifeos-backend-39pd.onrender.com/api";
 const SHOULD_TRY_DEV_FALLBACK =
   import.meta.env.DEV && (API_BASE_URL.startsWith("/") || API_BASE_URL.startsWith("http://localhost"));
 
