@@ -7,6 +7,17 @@ const DEV_API_FALLBACK_BASE = import.meta.env.VITE_DEV_API_FALLBACK ?? "https://
 const SHOULD_TRY_DEV_FALLBACK =
   import.meta.env.DEV && (API_BASE_URL.startsWith("/") || API_BASE_URL.startsWith("http://localhost"));
 
+const buildRequestUrl = (base: string, path: string) => {
+  const normalizedBase = base.replace(/\/+$/, "");
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+
+  if (normalizedPath.startsWith("/api/") && normalizedBase.endsWith("/api")) {
+    return `${normalizedBase}${normalizedPath.slice(4)}`;
+  }
+
+  return `${normalizedBase}${normalizedPath}`;
+};
+
 type RequestMethod = "GET" | "POST" | "PUT" | "DELETE";
 type AuthResponse = {
   token: string;
@@ -51,7 +62,7 @@ const request = async <T>(
     body: body ? JSON.stringify(body) : undefined,
   };
 
-  const primaryUrl = `${API_BASE_URL}${path}`;
+  const primaryUrl = buildRequestUrl(API_BASE_URL, path);
 
   let response: Response;
 
@@ -62,11 +73,11 @@ const request = async <T>(
       throw networkError;
     }
 
-    response = await fetch(`${DEV_API_FALLBACK_BASE}${path}`, requestInit);
+    response = await fetch(buildRequestUrl(DEV_API_FALLBACK_BASE, path), requestInit);
   }
 
   if (response.status === 404 && SHOULD_TRY_DEV_FALLBACK) {
-    const fallbackResponse = await fetch(`${DEV_API_FALLBACK_BASE}${path}`, requestInit);
+    const fallbackResponse = await fetch(buildRequestUrl(DEV_API_FALLBACK_BASE, path), requestInit);
     response = fallbackResponse;
   }
 
@@ -132,13 +143,13 @@ export const deleteColumn = (columnId: string) =>
   request<void>(`/columns/${columnId}`, "DELETE");
 
 export const signup = (email: string, password: string) =>
-  request<AuthResponse>("/auth/signup", "POST", { email, password }, { includeAuth: false });
+  request<AuthResponse>("/api/auth/signup", "POST", { email, password }, { includeAuth: false });
 
 export const login = (email: string, password: string) =>
-  request<AuthResponse>("/auth/login", "POST", { email, password }, { includeAuth: false });
+  request<AuthResponse>("/api/auth/login", "POST", { email, password }, { includeAuth: false });
 
 export const forgotPassword = (email: string) =>
-  request<{ message: string }>("/auth/forgot-password", "POST", { email }, { includeAuth: false });
+  request<{ message: string }>("/api/auth/forgot-password", "POST", { email }, { includeAuth: false });
 
 export const fetchUserProfile = () => request<UserProfile>("/user/profile", "GET");
 
