@@ -48,7 +48,7 @@ const formatUser = (user) => ({
 });
 
 const getFrontendBaseUrl = () => {
-  return process.env.FRONTEND_BASE_URL || "http://localhost:5173";
+  return process.env.FRONTEND_BASE_URL || "https://life-os-kohl-psi.vercel.app";
 };
 
 router.get(
