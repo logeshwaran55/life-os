@@ -20,7 +20,6 @@ import {
   createSchedule as createScheduleApi,
   createColumn as createColumnApi,
   createTask as createTaskApi,
-  logout as logoutApi,
   deleteSchedule as deleteScheduleApi,
   deleteColumn as deleteColumnApi,
   deleteTask as deleteTaskApi,
@@ -1422,7 +1421,10 @@ function App() {
 
   const handleLogout = useCallback(async () => {
     try {
-      await logoutApi();
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
     } catch (error) {
       console.error("Logout request failed", error);
     } finally {
@@ -1461,7 +1463,7 @@ function App() {
         if (!active) {
           return;
         }
-        handleLogout();
+        applyLocalLogoutState();
       } finally {
         if (active) {
           setIsRestoringSession(false);
@@ -1474,7 +1476,7 @@ function App() {
     return () => {
       active = false;
     };
-  }, [authUser, handleLogout]);
+  }, [applyLocalLogoutState, authUser]);
 
   const handleResetData = useCallback(async () => {
     const confirmed = window.confirm("Reset your workspace? This will remove all tasks and custom columns.");
