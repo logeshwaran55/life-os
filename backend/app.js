@@ -51,7 +51,7 @@ app.use(express.json());
 configurePassport();
 app.use(
   session({
-    name: "lifeos.sid",
+    name: "connect.sid",
     secret: SESSION_SECRET || "lifeos_session_secret_change_me",
     store: MONGO_URI
       ? MongoStore.create({

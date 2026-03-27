@@ -200,4 +200,31 @@ router.post("/forgot-password", async (req, res) => {
   res.status(202).json({ message: "Password reset flow is not enabled yet." });
 });
 
+router.post("/logout", (req, res, next) => {
+  req.logout((logoutError) => {
+    if (logoutError) {
+      next(logoutError);
+      return;
+    }
+
+    req.session?.destroy((sessionError) => {
+      if (sessionError) {
+        next(sessionError);
+        return;
+      }
+
+      const cookieOptions = {
+        httpOnly: true,
+        secure: isProductionLike(),
+        sameSite: "lax",
+        path: "/",
+      };
+
+      res.clearCookie("connect.sid", cookieOptions);
+      res.clearCookie("token", cookieOptions);
+      res.json({ success: true });
+    });
+  });
+});
+
 export default router;

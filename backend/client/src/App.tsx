@@ -20,6 +20,7 @@ import {
   createSchedule as createScheduleApi,
   createColumn as createColumnApi,
   createTask as createTaskApi,
+  logout as logoutApi,
   deleteSchedule as deleteScheduleApi,
   deleteColumn as deleteColumnApi,
   deleteTask as deleteTaskApi,
@@ -1401,7 +1402,7 @@ function App() {
     showFeedback("success", "Profile updated. Nice and tidy.");
   }, [showFeedback]);
 
-  const handleLogout = useCallback(() => {
+  const applyLocalLogoutState = useCallback(() => {
     clearAuthSession();
     setAuthUser(null);
     setIsRestoringSession(false);
@@ -1418,6 +1419,16 @@ function App() {
     ]);
     openAuthScreen("login");
   }, [openAuthScreen]);
+
+  const handleLogout = useCallback(async () => {
+    try {
+      await logoutApi();
+    } catch (error) {
+      console.error("Logout request failed", error);
+    } finally {
+      applyLocalLogoutState();
+    }
+  }, [applyLocalLogoutState]);
 
   useEffect(() => {
     if (authUser) {
@@ -1497,13 +1508,13 @@ function App() {
 
   useEffect(() => {
     setUnauthorizedHandler(() => {
-      handleLogout();
+      applyLocalLogoutState();
     });
 
     return () => {
       setUnauthorizedHandler(null);
     };
-  }, [handleLogout]);
+  }, [applyLocalLogoutState]);
 
   if (isRestoringSession) {
     return (

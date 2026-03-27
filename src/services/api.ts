@@ -134,6 +134,9 @@ export const login = (email: string, password: string) =>
 export const forgotPassword = (email: string) =>
   request<{ message: string }>("/api/auth/forgot-password", "POST", { email }, { includeAuth: false });
 
+export const logout = () =>
+  request<{ success: boolean }>("/api/auth/logout", "POST", undefined, { includeAuth: false });
+
 export const fetchUserProfile = () => request<UserProfile>("/user/profile", "GET");
 
 export const updateUserProfile = (updates: Pick<UserProfile, "name" | "phone" | "avatar">) =>
