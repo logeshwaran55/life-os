@@ -11,6 +11,21 @@ const getJwtSecret = () => {
 
 export const requireAuth = (req, res, next) => {
   try {
+    if (req.isAuthenticated?.() && req.user) {
+      const userId = typeof req.user.id === "string"
+        ? req.user.id
+        : req.user._id?.toString?.();
+
+      if (userId) {
+        req.user = {
+          id: userId,
+          email: typeof req.user.email === "string" ? req.user.email : "",
+        };
+        next();
+        return;
+      }
+    }
+
     const authHeader = req.headers.authorization;
     const rawCookieHeader = req.headers.cookie ?? "";
 

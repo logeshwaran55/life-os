@@ -46,7 +46,7 @@ const getAuthCookieOptions = () => {
   return {
     httpOnly: true,
     secure,
-    sameSite: secure ? "none" : "lax",
+    sameSite: "lax",
     maxAge: 7 * 24 * 60 * 60 * 1000,
     path: "/",
   };
@@ -61,10 +61,6 @@ const formatUser = (user) => ({
   createdAt: user.createdAt,
 });
 
-const getFrontendBaseUrl = () => {
-  return process.env.FRONTEND_BASE_URL || "https://life-os-kohl-psi.vercel.app";
-};
-
 router.get(
   "/google",
   passport.authenticate("google", {
@@ -74,19 +70,27 @@ router.get(
 
 router.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: `${getFrontendBaseUrl()}/login?error=google_auth_failed` }),
+  passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
     const user = req.user;
 
     if (!user) {
-      res.redirect(`${getFrontendBaseUrl()}/login?error=google_auth_failed`);
+      res.redirect("/login");
       return;
     }
 
-    const token = createToken(user);
-    res.cookie("token", token, getAuthCookieOptions());
-    const redirectUrl = `${getFrontendBaseUrl()}/oauth-success`;
-    res.redirect(redirectUrl);
+    const redirectUrl = "/";
+
+    req.session.save((sessionError) => {
+      if (sessionError) {
+        res.redirect("/login");
+        return;
+      }
+
+      const token = createToken(user);
+      res.cookie("token", token, getAuthCookieOptions());
+      res.redirect(redirectUrl);
+    });
   }
 );
 
