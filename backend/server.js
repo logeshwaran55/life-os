@@ -24,10 +24,17 @@ const port = Number(process.env.PORT ?? 5000);
 const MONGO_URI = process.env.MONGODB_URI;
 const DB_RETRY_DELAY_MS = 10000;
 const SESSION_SECRET = process.env.SESSION_SECRET || process.env.JWT_SECRET || "lifeos_session_secret_change_me";
+const FRONTEND_BASE_URL = process.env.FRONTEND_BASE_URL || "https://life-os-kohl-psi.vercel.app";
+const IS_PRODUCTION_LIKE = process.env.NODE_ENV === "production" || Boolean(process.env.RENDER);
 
 let isMongoConnected = false;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: FRONTEND_BASE_URL,
+    credentials: true,
+  })
+);
 app.use(express.json());
 configurePassport();
 app.use(
@@ -37,8 +44,8 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
+      sameSite: IS_PRODUCTION_LIKE ? "none" : "lax",
+      secure: IS_PRODUCTION_LIKE,
       maxAge: 24 * 60 * 60 * 1000,
     },
   })

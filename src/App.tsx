@@ -277,18 +277,15 @@ function App() {
     }
 
     const token = new URLSearchParams(window.location.search).get("token");
-    if (!token) {
-      showFeedback("error", "Google sign-in did not complete. Please try again.");
-      openAuthScreen("login");
-      return;
-    }
 
     let active = true;
 
     const completeGoogleLogin = async () => {
       try {
-        writeAuthToken(token, true);
-        setAuthToken(token);
+        if (token) {
+          writeAuthToken(token, true);
+          setAuthToken(token);
+        }
 
         const profile = await fetchUserProfile();
         if (!active) {
@@ -310,7 +307,7 @@ function App() {
         setFeedback(null);
         window.history.replaceState({}, "", PAGE_PATHS.dashboard);
         showFeedback("success", "Welcome back. You are signed in with Google.");
-      } catch (_error) {
+      } catch {
         clearAuthSession();
         if (!active) {
           return;
@@ -403,6 +400,8 @@ function App() {
     return () => {
       // Note: keyboard manager is global, just log for clarity
     };
+  // Keyboard handlers intentionally re-bind with current selection.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTableRows, showFeedback]);
 
   // Track selected table rows
@@ -478,7 +477,7 @@ function App() {
     return () => {
       active = false;
     };
-  }, [authToken]);
+  }, [authToken, showFeedback]);
 
   useEffect(() => {
     setTasks((prev) => hydrateTasksWithColumns(prev, columns));
@@ -600,7 +599,7 @@ function App() {
     if (!targetColumn) return;
 
     const confirmed = window.confirm(
-      `Delete \"${targetColumn.name}\"? This will remove that field from every task.`
+      `Delete "${targetColumn.name}"? This will remove that field from every task.`
     );
     if (!confirmed) return;
 
@@ -782,7 +781,7 @@ function App() {
     });
   };
 
-  const deleteRows = (rowIds: string[]) => {
+  function deleteRows(rowIds: string[]) {
     if (rowIds.length === 0) return;
 
     const confirmed = window.confirm(
@@ -800,7 +799,7 @@ function App() {
         errorMessage: "We could not delete one of the selected rows.",
       });
     });
-  };
+  }
 
   const duplicateRows = (rowIds: string[]) => {
     if (rowIds.length === 0) return;
@@ -952,13 +951,14 @@ function App() {
     [tasks, intelligenceDateColumnId]
   );
 
+  const currentStreak = smartEngine.streak.current;
+
   useEffect(() => {
-    const currentStreak = smartEngine.streak.current;
     if (currentStreak > bestStreak) {
       setBestStreak(currentStreak);
       window.localStorage.setItem(STREAK_STORAGE_KEY, String(currentStreak));
     }
-  }, [bestStreak, smartEngine.streak.current]);
+  }, [bestStreak, currentStreak]);
 
   const filteredTasks = tasks.filter((task) => {
     if (filter === "completed") return task.completed;
@@ -1452,7 +1452,7 @@ function App() {
 
         writeAuthenticatedUser(restoredUser);
         setAuthUser(restoredUser);
-      } catch (_error) {
+      } catch {
         if (!active) {
           return;
         }

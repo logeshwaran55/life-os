@@ -60,7 +60,7 @@ export default function ScheduleView({
     });
 
     return Array.from(groups.entries()).sort((a, b) => a[0] - b[0]);
-  }, [schedule.timeline]);
+  }, [schedule]);
 
   const taskById = useMemo(() => {
     const map = new Map<string, Task>();

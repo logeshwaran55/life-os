@@ -55,6 +55,7 @@ const request = async <T>(
   const token = includeAuth ? readAuthToken() : null;
   const requestInit: RequestInit = {
     method,
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
       ...(token ? { Authorization: `Bearer ${token}` } : {}),

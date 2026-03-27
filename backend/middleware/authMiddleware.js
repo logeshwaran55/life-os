@@ -12,13 +12,25 @@ const getJwtSecret = () => {
 export const requireAuth = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
+    const rawCookieHeader = req.headers.cookie ?? "";
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      res.status(401).json({ success: false, message: "Missing or invalid Authorization header" });
+    const cookieToken = rawCookieHeader
+      .split(";")
+      .map((entry) => entry.trim())
+      .find((entry) => entry.startsWith("token="))
+      ?.slice("token=".length);
+
+    const bearerToken = authHeader && authHeader.startsWith("Bearer ")
+      ? authHeader.slice("Bearer ".length)
+      : null;
+
+    const token = bearerToken || cookieToken;
+
+    if (!token) {
+      res.status(401).json({ success: false, message: "Missing authentication token" });
       return;
     }
 
-    const token = authHeader.slice("Bearer ".length);
     const payload = jwt.verify(token, getJwtSecret());
 
     if (!payload?.userId || typeof payload.userId !== "string") {

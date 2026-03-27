@@ -38,6 +38,20 @@ const createToken = (user) => {
   );
 };
 
+const isProductionLike = () => process.env.NODE_ENV === "production" || Boolean(process.env.RENDER);
+
+const getAuthCookieOptions = () => {
+  const secure = isProductionLike();
+
+  return {
+    httpOnly: true,
+    secure,
+    sameSite: secure ? "none" : "lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    path: "/",
+  };
+};
+
 const formatUser = (user) => ({
   id: user._id.toString(),
   email: user.email,
@@ -70,7 +84,8 @@ router.get(
     }
 
     const token = createToken(user);
-    const redirectUrl = `${getFrontendBaseUrl()}/oauth-success?token=${encodeURIComponent(token)}`;
+    res.cookie("token", token, getAuthCookieOptions());
+    const redirectUrl = `${getFrontendBaseUrl()}/oauth-success`;
     res.redirect(redirectUrl);
   }
 );
@@ -112,6 +127,7 @@ router.post("/signup", async (req, res) => {
     });
 
     const token = createToken(user);
+    res.cookie("token", token, getAuthCookieOptions());
 
     res.status(201).json({
       token,
@@ -154,6 +170,7 @@ router.post("/login", async (req, res) => {
     }
 
     const token = createToken(user);
+    res.cookie("token", token, getAuthCookieOptions());
 
     res.json({
       token,

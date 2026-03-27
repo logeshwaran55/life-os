@@ -19,7 +19,7 @@ export default function TaskHistoryViewer({ tasks }: Props) {
       return [];
     }
     return getTaskHistory(selectedTaskId);
-  }, [selectedTaskId, tasks.length]);
+  }, [selectedTaskId]);
 
   return (
     <div className="task-history-card">

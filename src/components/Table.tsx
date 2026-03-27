@@ -50,7 +50,7 @@ export default function Table({
     if (!sortBy) return renderedRows;
 
     const column = columns.find((col) => col.id === sortBy);
-    if (!column) return rows;
+    if (!column) return renderedRows;
 
     const sorted = [...renderedRows].sort((a, b) => {
       const aValue = a.values[sortBy];
@@ -96,6 +96,8 @@ export default function Table({
       .filter((row) => !nextRowById.has(row.id))
       .map((row) => row.id);
 
+    // Animation reconciliation intentionally updates local state from incoming rows.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setRenderedRows((prev) => {
       const prevMap = new Map(prev.map((row) => [row.id, row]));
       const merged: Task[] = [];
@@ -140,6 +142,8 @@ export default function Table({
 
   useEffect(() => {
     const visibleRowIds = new Set(rows.map((row) => row.id));
+    // Keep selected IDs in sync with currently visible rows.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setSelectedRowIds((prev) => prev.filter((id) => visibleRowIds.has(id)));
   }, [rows]);
 

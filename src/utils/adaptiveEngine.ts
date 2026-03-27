@@ -308,9 +308,10 @@ export const generateAdaptiveInsights = (
  */
 export const generateAdaptiveIntelligence = (
   tasks: Task[],
-  _dateColumnId: string,
-  _now = new Date()
+  _dateColumnId: string
 ): AdaptiveIntelligenceResult => {
+  void _dateColumnId;
+
   const behavior = analyzeUserBehavior(tasks);
   const patterns = detectPatterns(tasks, behavior);
   const workload = suggestWorkload(tasks, behavior);
