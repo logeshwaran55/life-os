@@ -19,9 +19,13 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.join(__dirname, ".env") });
 
 const app = express();
-const SESSION_SECRET = process.env.SESSION_SECRET || process.env.JWT_SECRET || "lifeos_session_secret_change_me";
 const FRONTEND_BASE_URL = process.env.FRONTEND_BASE_URL || "https://life-os-kohl-psi.vercel.app";
 const IS_PRODUCTION_LIKE = process.env.NODE_ENV === "production" || Boolean(process.env.RENDER);
+const SESSION_SECRET = process.env.SESSION_SECRET;
+
+if (!SESSION_SECRET && IS_PRODUCTION_LIKE) {
+  throw new Error("SESSION_SECRET is missing. Set it in your Render environment.");
+}
 
 app.use(
   cors({
@@ -31,9 +35,11 @@ app.use(
 );
 app.use(express.json());
 configurePassport();
+app.set("trust proxy", 1);
 app.use(
   session({
-    secret: SESSION_SECRET,
+    secret: SESSION_SECRET || "lifeos_session_secret_change_me",
+    proxy: IS_PRODUCTION_LIKE,
     resave: false,
     saveUninitialized: false,
     cookie: {
