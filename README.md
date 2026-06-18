@@ -198,13 +198,11 @@ NODE_ENV=development
 
 ### Frontend (.env in root)
 
-```env
-VITE_API_BASE_URL=/api
-```
+The frontend uses same-origin `/api` requests and does not require a separate API base environment variable.
 
 ### Notes
 - In dev, Vite proxies `/api` to `http://localhost:4000`
-- In production, update `VITE_API_BASE_URL` to your backend URL
+- In production, Express serves the frontend and API from the same Render deployment
 - For MongoDB Atlas, update `MONGODB_URI` with your connection string
 
 ---
@@ -296,7 +294,7 @@ Ready to go live? See [BACKEND_DEPLOYMENT.md](./BACKEND_DEPLOYMENT.md) for:
 ### Tasks Not Syncing
 - Check backend logs for errors
 - Check browser console for network errors
-- Verify API URL: `VITE_API_BASE_URL=/api`
+- Verify API calls use relative `/api` paths
 
 ### CORS Error
 - CORS is already enabled in `backend/app.js`

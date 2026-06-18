@@ -227,7 +227,7 @@ When `isLoadingData` is true:
 All HTTP requests go through centralized service:
 
 ```typescript
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "/api";
+const API_BASE_URL = "/api";
 
 export const fetchTasks = () => request<Task[]>("/tasks", "GET");
 export const createTask = (task: Task) => request<Task>("/tasks", "POST", task);

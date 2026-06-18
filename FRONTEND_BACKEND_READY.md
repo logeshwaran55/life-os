@@ -176,7 +176,7 @@ NODE_ENV=development
 
 ### Frontend (Vite auto-config)
 ```env
-VITE_API_BASE_URL=/api
+The frontend uses same-origin `/api` requests and does not require a separate API base environment variable.
 ```
 
 ---

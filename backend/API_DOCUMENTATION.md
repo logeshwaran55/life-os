@@ -380,7 +380,7 @@ DELETE /api/columns/:id
 The frontend (React) connects via `src/services/api.ts`:
 
 ```typescript
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "/api";
+const API_BASE_URL = "/api";
 
 export const fetchTasks = () => request<Task[]>("/tasks", "GET");
 export const createTask = (task: Task) => request<Task>("/tasks", "POST", task);
@@ -558,8 +558,8 @@ See deployment guides for Node.js apps with MongoDB Atlas
 ## API Base URLs
 
 - **Development**: `http://localhost:4000/api`
-- **Frontend Dev**: Uses proxy or `VITE_API_BASE_URL` environment variable
-- **Production**: Depends on deployment platform
+- **Frontend Dev**: Uses Vite proxy and relative `/api` requests
+- **Production**: Same Render origin serves frontend and API
 
 ---
 

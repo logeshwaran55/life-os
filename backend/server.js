@@ -28,7 +28,7 @@ const DB_RETRY_DELAY_MS = 10000;
 const IS_PRODUCTION_LIKE = process.env.NODE_ENV === "production" || Boolean(process.env.RENDER);
 const SESSION_SECRET = process.env.SESSION_SECRET;
 const ALLOWED_ORIGINS = ["http://localhost:5173", "http://127.0.0.1:5173"];
-const CLIENT_BUILD_PATH = path.join(__dirname, "client", "build");
+const CLIENT_BUILD_PATH = path.join(__dirname, "client", "dist");
 
 if (!SESSION_SECRET && IS_PRODUCTION_LIKE) {
   throw new Error("SESSION_SECRET is missing. Set it in your Render environment.");
@@ -38,22 +38,29 @@ let isMongoConnected = false;
 
 app.set("trust proxy", 1);
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow same-origin and local dev origins; production same-origin does not send Origin.
-      if (!origin || ALLOWED_ORIGINS.includes(origin)) {
-        callback(null, true);
-        return;
-      }
+// Apply CORS only during local development. In production the frontend is
+// served by the same Express server so a separate CORS policy is unnecessary
+// and may incorrectly block same-origin requests.
+if (process.env.NODE_ENV !== "production") {
+  app.use(
+    cors({
+      origin: (origin, callback) => {
+        if (!origin || ALLOWED_ORIGINS.includes(origin)) {
+          callback(null, true);
+          return;
+        }
 
-      callback(new Error(`CORS blocked for origin: ${origin}`));
-    },
-    credentials: true,
-  })
-);
+        callback(new Error(`CORS blocked for origin: ${origin}`));
+      },
+      credentials: true,
+    })
+  );
+}
 app.use(express.json());
+
+// Configure Passport strategies before session middleware
 configurePassport();
+
 app.use(
   session({
     name: "connect.sid",

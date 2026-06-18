@@ -331,7 +331,7 @@ NODE_ENV=production
 
 ### Frontend (src/.env)
 ```
-VITE_API_BASE_URL=/api
+The frontend uses same-origin `/api` requests and does not require a separate API base environment variable.
 ```
 
 ---
@@ -380,7 +380,7 @@ docker run --name mongodb -p 27017:27017 -d mongo:latest
 ### CORS Issues
 - CORS is already enabled in `app.js`
 - If CORS error, verify frontend URL is correct
-- Verify `VITE_API_BASE_URL=/api` in frontend
+- Verify frontend requests use relative `/api` paths
 
 ---
 

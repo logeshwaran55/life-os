@@ -210,8 +210,7 @@ CORS is already enabled in `app.js`, but if you see CORS errors:
 - Check backend is on localhost:4000
 - Check `frontend/.env` has:
   ```
-  VITE_API_BASE_URL=/api
-  ```
+    The frontend uses relative `/api` requests and does not require a separate API base env var.
 
 ---
 

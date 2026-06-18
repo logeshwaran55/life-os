@@ -2,7 +2,7 @@ import type { Column, Task } from "../types/column";
 import type { Schedule } from "../types/schedule";
 import { readAuthToken } from "./storage";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "/api";
+const API_BASE_URL = "/api";
 
 const buildRequestUrl = (base: string, path: string) => {
   const normalizedBase = base.replace(/\/+$/, "");

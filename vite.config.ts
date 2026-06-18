@@ -35,7 +35,8 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://lifeos-backend-39pd.onrender.com",
+        // During local development proxy API calls to local backend
+        target: "http://localhost:5000",
         changeOrigin: true,
         secure: false,
       },
