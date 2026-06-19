@@ -14,7 +14,7 @@ type Props = {
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const GOOGLE_AUTH_URL =
-  import.meta.env.VITE_GOOGLE_AUTH_URL ?? "/api/auth/google";
+  import.meta.env.VITE_GOOGLE_AUTH_URL?.trim() || "/api/auth/google";
 
 export default function AuthFormCard({
   mode,
