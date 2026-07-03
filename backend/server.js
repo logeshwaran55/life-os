@@ -41,6 +41,8 @@ app.set("trust proxy", 1);
 // Apply CORS only during local development. In production the frontend is
 // served by the same Express server so a separate CORS policy is unnecessary
 // and may incorrectly block same-origin requests.
+console.log("NODE_ENV =", process.env.NODE_ENV);
+console.log("RENDER =", process.env.RENDER);
 if (process.env.NODE_ENV !== "production") {
   app.use(
     cors({
