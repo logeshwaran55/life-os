@@ -28,7 +28,7 @@ This guide explains how to deploy the LifeOS backend to various platforms for pr
    # Create .env in backend/ folder
    PORT=4000
    MONGODB_URI=mongodb://127.0.0.1:27017/lifeos
-   NODE_ENV=development
+   NODE_ENV=production
    ```
 
 3. **Start Development**
@@ -283,7 +283,7 @@ This guide explains how to deploy the LifeOS backend to various platforms for pr
 ```
 PORT=4000
 MONGODB_URI=mongodb://127.0.0.1:27017/lifeos
-NODE_ENV=development
+NODE_ENV=production
 ```
 
 ### Production

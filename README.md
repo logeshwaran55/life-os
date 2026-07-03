@@ -193,7 +193,7 @@ http://localhost:5173
 ```env
 PORT=4000
 MONGODB_URI=mongodb://127.0.0.1:27017/lifeos
-NODE_ENV=development
+NODE_ENV=production
 ```
 
 ### Frontend (.env in root)

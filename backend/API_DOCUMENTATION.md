@@ -56,7 +56,7 @@ npm install
 ```
 PORT=5000
 MONGODB_URI=mongodb://<username>:<password>@cluster.mongodb.net/lifeos
-NODE_ENV=development
+NODE_ENV=production
 ```
 
 3. **Start MongoDB**:

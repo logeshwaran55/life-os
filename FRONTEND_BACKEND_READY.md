@@ -171,7 +171,7 @@ curl https://lifeos-backend-39pd.onrender.com/api/tasks
 ```env
 PORT=5000
 MONGODB_URI=mongodb://720823103082_db_user:ScU2FxhraLsP3FpX@ac-qv0p4pb-shard-00-00.xhela8g.mongodb.net:27017,...
-NODE_ENV=development
+NODE_ENV=production
 ```
 
 ### Frontend (Vite auto-config)
