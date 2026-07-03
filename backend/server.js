@@ -43,7 +43,7 @@ app.set("trust proxy", 1);
 // and may incorrectly block same-origin requests.
 console.log("NODE_ENV =", process.env.NODE_ENV);
 console.log("RENDER =", process.env.RENDER);
-if (process.env.NODE_ENV !== "production") {
+if (!IS_PRODUCTION_LIKE){
   app.use(
     cors({
       origin: (origin, callback) => {
