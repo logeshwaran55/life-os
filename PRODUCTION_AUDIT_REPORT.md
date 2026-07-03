@@ -447,7 +447,7 @@ NODE_ENV=production
 JWT_SECRET=<your-jwt-secret>
 GOOGLE_CLIENT_ID=<your-google-client-id>
 GOOGLE_CLIENT_SECRET=<your-google-client-secret>
-GOOGLE_CALLBACK_URL=https://lifeos-backend-39pd.onrender.com/api/auth/google/callback ✅ CORRECT
+GOOGLE_CALLBACK_URL=https://life-os-fyl1.onrender.com/api/auth/google/callback ✅ CORRECT
 SESSION_SECRET=<your-session-secret>
 ```
 
@@ -576,7 +576,7 @@ Before going live, verify:
   - [ ] `JWT_SECRET=<secure 32+ character string>`
   - [ ] `GOOGLE_CLIENT_ID=<from Google Cloud Console>`
   - [ ] `GOOGLE_CLIENT_SECRET=<from Google Cloud Console>`
-  - [ ] `GOOGLE_CALLBACK_URL=https://lifeos-backend-39pd.onrender.com/api/auth/google/callback`
+  - [ ] `GOOGLE_CALLBACK_URL=https://life-os-fyl1.onrender.com/api/auth/google/callback`
 
 - [ ] **Build Verification:**
   - [ ] `npm install` succeeds

@@ -93,7 +93,7 @@ MONGODB_URI=<Atlas-URI>
 JWT_SECRET=<secure-random>
 GOOGLE_CLIENT_ID=<from-Google-Cloud>
 GOOGLE_CLIENT_SECRET=<from-Google-Cloud>
-GOOGLE_CALLBACK_URL=https://lifeos-backend-39pd.onrender.com/api/auth/google/callback
+GOOGLE_CALLBACK_URL=https://life-os-fyl1.onrender.com/api/auth/google/callback
 
 # 2. Build
 npm install
