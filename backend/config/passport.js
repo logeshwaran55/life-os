@@ -13,6 +13,7 @@ const getRequiredEnv = (key) => {
 };
 
 export const configurePassport = () => {
+  console.log(">>>> Configuring Google Passport");
   passport.use(
     new GoogleStrategy(
       {
