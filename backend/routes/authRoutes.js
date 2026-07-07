@@ -63,6 +63,10 @@ const formatUser = (user) => ({
 
 router.get(
   "/google",
+  (req, res, next) => {
+    console.log(">>>> ENTERED /api/auth/google");
+    next();
+  },
   passport.authenticate("google", {
     scope: ["profile", "email"],
   })
@@ -79,8 +83,6 @@ router.get(
       return;
     }
 
-    const redirectUrl = "/";
-
     req.session.save((sessionError) => {
       if (sessionError) {
         res.redirect("/login");
@@ -89,7 +91,7 @@ router.get(
 
       const token = createToken(user);
       res.cookie("token", token, getAuthCookieOptions());
-      res.redirect(redirectUrl);
+      res.redirect(`/oauth-success?token=${encodeURIComponent(token)}`);
     });
   }
 );

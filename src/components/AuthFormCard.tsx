@@ -212,9 +212,8 @@ export default function AuthFormCard({
 
         <button
           className="btn btn-ghost auth-google-btn"
+          type="button"
           onClick={() => {
-            console.log("Google URL =", GOOGLE_AUTH_URL);
-            alert("Google URL = " + GOOGLE_AUTH_URL);
             window.location.href = GOOGLE_AUTH_URL;
           }}
         >
