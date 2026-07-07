@@ -13,8 +13,14 @@ type Props = {
 };
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const GOOGLE_AUTH_URL =
-  import.meta.env.VITE_GOOGLE_AUTH_URL?.trim() || "/api/auth/google";
+const GOOGLE_AUTH_URL = (() => {
+  const explicitUrl = import.meta.env.VITE_GOOGLE_AUTH_URL?.trim();
+  if (explicitUrl) {
+    return explicitUrl;
+  }
+
+  return new URL("/api/auth/google", window.location.origin).toString();
+})();
 
 export default function AuthFormCard({
   mode,
